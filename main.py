@@ -47,7 +47,7 @@ def handle_events(balls,ball_info):
             return False
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_UP:
-                balls.append(ball.Ball(ball_info[0], rand_color(), [rnd(0,SCREEN_WIDTH), rnd(0,SCREEN_HEIGHT)], rnd(1,20)))
+                balls.append(ball.Ball(ball_info[0], rand_color(), [rnd(0,SCREEN_WIDTH), rnd(0,SCREEN_HEIGHT)], rnd(1,20))) # adds instance of ball class
             if event.key == pygame.K_DOWN:
                 if len(balls) > 0:
                     balls.pop(0)
