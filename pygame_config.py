@@ -1,6 +1,6 @@
 SCREEN_WIDTH, SCREEN_HEIGHT = 800, 600
 
-PYGAME_CAPTION = "Pygame Window Caption is up here"
+PYGAME_CAPTION = "Bouncing balls"
 ICON = "" #THIS WILL BE A 32x32 .png
 
 FPS = 60
