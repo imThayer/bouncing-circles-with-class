@@ -68,6 +68,11 @@ def handle_events(balls,ball_info, night, text):
                 for i in range(100):
                     balls.append(ball.Ball(ball_info[0], rand_color(), [rnd(0,SCREEN_WIDTH), rnd(0,SCREEN_HEIGHT)], rnd(1,50))) # adds instance of ball class
                 text[2].update_text("Ball Counter: "+str(len(balls)))
+
+            if event.key == pygame.K_TAB:
+                for i in range(10000):
+                    balls.append(ball.Ball(ball_info[0], rand_color(), [rnd(0,SCREEN_WIDTH), rnd(0,SCREEN_HEIGHT)], rnd(1,50))) # adds instance of ball class
+                text[2].update_text("Ball Counter: "+str(len(balls)))
             if event.key == pygame.K_SPACE:
                 night = not night
 
