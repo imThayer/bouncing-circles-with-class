@@ -24,33 +24,48 @@ def init_game():
     return window
 
 # Draw Function to update graphics
-def draw(window,balls,text):
+def draw(window,balls,text,nightmode):
     """DRAW FUNCTION | allows screen graphics to be added"""
     #BACKGROUND
-    window.fill(WHITE) # 15
+    if nightmode:
+        window.fill(BLACK) # 15
+    else:
+        window.fill(WHITE)
     
 
     #FOREGROUND
-    
-    text.draw_text()
 
     for b in balls:
         b.draw()
 
+    for t in text:
+        t.draw_text()
     #UPDATE DISPLAY
     pygame.display.update()
 
-def handle_events(balls,ball_info):
+def handle_events(balls,ball_info, night, text):
     """Handles any pygame event such as key input"""
     for event in pygame.event.get():
         if event.type == pygame.QUIT: # QUIT
-            return False
+            return False, night
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_UP:
-                balls.append(ball.Ball(ball_info[0], rand_color(), [rnd(0,SCREEN_WIDTH), rnd(0,SCREEN_HEIGHT)], rnd(1,20))) # adds instance of ball class
+                balls.append(ball.Ball(ball_info[0], rand_color(), [rnd(0,SCREEN_WIDTH), rnd(0,SCREEN_HEIGHT)], rnd(1,50))) # adds instance of ball class
             if event.key == pygame.K_DOWN:
                 if len(balls) > 0:
                     balls.pop(0)
+            if event.key == pygame.K_SPACE:
+                night = not night
+
+                if night:
+                    for t in text:
+                        t.change_font_color(WHITE)
+                else:
+                    for t in text:
+                        t.change_font_color(BLACK)
+
+
+                
 
     
 
@@ -59,7 +74,7 @@ def handle_events(balls,ball_info):
     for b in balls:
         b.move()
 
-    return True
+    return True, night
 
 
 
@@ -72,6 +87,9 @@ def main(): # MAIN FUNCTION
     ball_info = [window]
     balls = []
     instructions = boxes.Text_box(window, 10, 10, 50, 50, "Press UP: to add ball Press DOWN: to delete a ball", BLACK)
+    nightmode_text = boxes.Text_box(window, 10, 30, 50, 50, "Press SPACEBAR: to switch between day and night mode", BLACK)
+    texts = [instructions, nightmode_text]
+    night = False
     
     # ADD ALL OBJECTS/CLASSES ABOVE HERE
     run = True
@@ -79,11 +97,11 @@ def main(): # MAIN FUNCTION
 
         clock.tick(FPS) # FPS Tick
 
-        run = handle_events(balls,ball_info)
+        run,night = handle_events(balls,ball_info, night,texts)
         
 
         
-        draw(window,balls,instructions) # UPDATES SCREEN
+        draw(window,balls,texts,night) # UPDATES SCREEN
 
     pygame.quit()
     sys.exit()
