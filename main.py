@@ -49,13 +49,25 @@ def handle_events(balls,ball_info, night, text):
         if event.type == pygame.QUIT: # QUIT
             return False, night
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_UP:
+            if event.key == pygame.K_RETURN:
                 balls.append(ball.Ball(ball_info[0], rand_color(), [rnd(0,SCREEN_WIDTH), rnd(0,SCREEN_HEIGHT)], rnd(1,50))) # adds instance of ball class
                 text[2].update_text("Ball Counter: "+ str(len(balls)))
-            if event.key == pygame.K_DOWN:
+            if event.key == pygame.K_BACKSPACE:
                 if len(balls) > 0:
                     balls.pop(0)
                     text[2].update_text("Ball Counter: "+str(len(balls)))
+            if event.key == pygame.K_r:
+                balls.clear()
+                text[2].update_text("Ball Counter: "+str(len(balls)))
+
+            if event.key == pygame.K_LSHIFT:
+                for i in range(10):
+                    balls.append(ball.Ball(ball_info[0], rand_color(), [rnd(0,SCREEN_WIDTH), rnd(0,SCREEN_HEIGHT)], rnd(1,50))) # adds instance of ball class
+                text[2].update_text("Ball Counter: "+str(len(balls)))
+            if event.key == pygame.K_RSHIFT:
+                for i in range(100):
+                    balls.append(ball.Ball(ball_info[0], rand_color(), [rnd(0,SCREEN_WIDTH), rnd(0,SCREEN_HEIGHT)], rnd(1,50))) # adds instance of ball class
+                text[2].update_text("Ball Counter: "+str(len(balls)))
             if event.key == pygame.K_SPACE:
                 night = not night
 
@@ -66,6 +78,23 @@ def handle_events(balls,ball_info, night, text):
                     for t in text:
                         t.change_font_color(BLACK)
 
+            if event.key == pygame.K_UP:
+                for b in balls:
+                    b.y_vel = -(abs(b.y_vel))
+
+            if event.key == pygame.K_DOWN:
+                for b in balls:
+                    b.y_vel = abs(b.y_vel)
+
+            if event.key == pygame.K_RIGHT:
+                for b in balls:
+                    b.x_vel = abs(b.x_vel)
+
+
+            if event.key == pygame.K_LEFT:
+                for b in balls:
+                    b.x_vel = -(abs(b.x_vel))
+
 
                 
 
@@ -73,6 +102,15 @@ def handle_events(balls,ball_info, night, text):
 
     keys = pygame.key.get_pressed()
 
+    if keys[pygame.K_w]:
+        balls.append(ball.Ball(ball_info[0], rand_color(), [rnd(0,SCREEN_WIDTH), rnd(0,SCREEN_HEIGHT)], rnd(1,50))) # adds instance of ball class
+        text[2].update_text("Ball Counter: "+ str(len(balls)))
+    if keys[pygame.K_s]:
+        if len(balls) > 0:
+                    balls.pop(0)
+                    text[2].update_text("Ball Counter: "+str(len(balls)))
+
+    
     for b in balls:
         b.move()
 
@@ -88,10 +126,11 @@ def main(): # MAIN FUNCTION
 
     ball_info = [window]
     balls = []
-    instructions = boxes.Text_box(window, 10, 10, 50, 50, "Press UP: to add ball Press DOWN: to delete a ball", BLACK)
-    nightmode_text = boxes.Text_box(window, 10, 30, 50, 50, "Press SPACEBAR: to switch between day and night mode", BLACK)
-    counter = boxes.Text_box(window, 10, 50, 50, 50, "Ball Counter: "+ str(len(balls)), BLACK)
-    texts = [instructions, nightmode_text,counter]
+    instructions1 = boxes.Text_box(window, 10, 10, 50, 50, "Press ENTER: to add ball Press BACKSPACE: to delete a ball", BLACK)
+    instructions2 = boxes.Text_box(window, 10, 30, 50, 50, "Press R: to delete all balls", BLACK)
+    nightmode_text = boxes.Text_box(window, 10, 50, 50, 50, "Press SPACEBAR: to switch between day and night mode", BLACK)
+    counter = boxes.Text_box(window, 10, SCREEN_HEIGHT - 50, 50, 50, "Ball Counter: "+ str(len(balls)), BLACK)
+    texts = [instructions1, nightmode_text,counter, instructions2]
     night = False
     
     # ADD ALL OBJECTS/CLASSES ABOVE HERE
